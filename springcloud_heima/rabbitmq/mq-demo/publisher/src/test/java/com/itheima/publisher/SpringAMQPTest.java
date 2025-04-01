@@ -45,4 +45,37 @@ public class SpringAMQPTest {
         }
     }
 
+    /**
+     * 往Fanout交换机里面发送消息
+     */
+    @Test
+    public void testSendFanout(){
+        String exchangeName = "hmall.fanout";
+        String msg = "hello everyone !";
+
+        rabbitTemplate.convertAndSend(exchangeName, null, msg);
+    }
+
+    /**
+     * 往Direct交换机里面发送消息
+     */
+    @Test
+    public void testSendDirect(){
+        String exchangeName = "hmall.direct";
+        String msg = "yellow";
+
+        rabbitTemplate.convertAndSend(exchangeName, "yellow", msg);
+    }
+
+    /**
+     * 往Topic交换机里面发送消息
+     */
+    @Test
+    public void testSendTopic(){
+        String exchangeName = "hmall.topic";
+        String msg = "hello";
+
+        rabbitTemplate.convertAndSend(exchangeName, "japan.news", msg);
+    }
+
 }

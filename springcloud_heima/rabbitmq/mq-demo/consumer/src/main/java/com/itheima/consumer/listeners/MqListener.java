@@ -33,4 +33,43 @@ public class MqListener {
         System.err.println("消费者2 收到了work.queue的消息......：【" + msg + "】");
         Thread.sleep(200);
     }
+
+    // ------------------- Fanout交换机 -------------------
+
+    @RabbitListener(queues = "fanout.queue1")
+    public void listenFanOutQueue1(String msg){
+        System.out.println("消费者1 fanout.queue1的消息：【" + msg + "】");
+    }
+
+
+    @RabbitListener(queues = "fanout.queue2")
+    public void listenFanOutQueue2(String msg) {
+        System.err.println("消费者2 收到了fanout.queue2的消息......：【" + msg + "】");
+    }
+
+    // ------------------- Direct交换机 -------------------
+
+    @RabbitListener(queues = "direct.queue1")
+    public void listenDirectQueue1(String msg){
+        System.out.println("消费者1 direct.queue1的消息：【" + msg + "】");
+    }
+
+
+    @RabbitListener(queues = "direct.queue2")
+    public void listenDirectQueue2(String msg) {
+        System.err.println("消费者2 收到了direct.queue2的消息......：【" + msg + "】");
+    }
+
+    // ------------------- Topic交换机 -------------------
+
+    @RabbitListener(queues = "topic.queue1")
+    public void listenTopicQueue1(String msg){
+        System.out.println("消费者1 topic.queue1的消息：【" + msg + "】");
+    }
+
+
+    @RabbitListener(queues = "topic.queue2")
+    public void listenTopicQueue2(String msg) {
+        System.err.println("消费者2 topic.queue2的消息......：【" + msg + "】");
+    }
 }
