@@ -30,4 +30,19 @@ public class SpringAMQPTest {
         rabbitTemplate.convertAndSend(queueName,msg);
     }
 
+
+    /**
+     * 往队列里面发送50条消息
+     */
+    @Test
+    public void testWorkQueue() throws InterruptedException {
+        String queueName = "work.queue";
+        for (int i = 0; i < 50; i++) {
+            String msg = "hello worker, message_" + i;
+            rabbitTemplate.convertAndSend(queueName,msg);
+
+            Thread.sleep(20);
+        }
+    }
+
 }
