@@ -1,6 +1,10 @@
 package com.itheima.consumer.listeners;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -49,13 +53,28 @@ public class MqListener {
 
     // ------------------- Direct交换机 -------------------
 
-    @RabbitListener(queues = "direct.queue1")
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "direct.queue1", durable = "true"),
+            exchange = @Exchange(name = "hmall.direct", type = ExchangeTypes.DIRECT),
+            key = {"red", "blue"}
+    ))
+    // @RabbitListener(queues = "direct.queue1")
     public void listenDirectQueue1(String msg){
         System.out.println("消费者1 direct.queue1的消息：【" + msg + "】");
     }
 
-
-    @RabbitListener(queues = "direct.queue2")
+    /**
+     * 1、@RabbitListener注解：监听队列，并在接收到消息时执行指定的方法
+     * 2、 @Queue注解：声明队列 （durable = "true" 表示持久化的）
+     * 3、@Exchange注解：声明交换机（type = ExchangeTypes.TOPIC 表示交换机类型）
+     * 4、key：绑定的路由密钥，支持多个绑定
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "direct.queue2", durable = "true"),
+            exchange = @Exchange(name = "hmall.direct", type = ExchangeTypes.DIRECT),
+            key = {"red", "yellow"}
+    ))
+    // @RabbitListener(queues = "direct.queue2")
     public void listenDirectQueue2(String msg) {
         System.err.println("消费者2 收到了direct.queue2的消息......：【" + msg + "】");
     }

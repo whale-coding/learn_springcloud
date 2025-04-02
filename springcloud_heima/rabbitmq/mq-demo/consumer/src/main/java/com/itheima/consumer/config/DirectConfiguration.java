@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description: 声明一个Direct类型的交换机，并且创建队列与其绑定
  */
 
-@Configuration
+// @Configuration
 public class DirectConfiguration {
 
     // 声明一个交换机(2种方式)
