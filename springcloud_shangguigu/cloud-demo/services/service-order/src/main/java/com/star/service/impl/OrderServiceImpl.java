@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,11 +32,16 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private RestTemplate restTemplate;  // 远程调用
 
+    @Resource
+    private LoadBalancerClient loadBalancerClient;  // 负载均衡
+
 
     @Override
     public Order createOrder(Long productId, Long userId) {
 
-        Product product = getProductFromRemote(productId);
+        // Product product = getProductFromRemote(productId);
+        // Product product = getProductFromRemoteWithLoadBalance(productId);  // 负载均衡发送请求
+        Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);  // 基于注解的负载均衡
 
         Order order = new Order();
         order.setId(1L);
@@ -61,6 +67,33 @@ public class OrderServiceImpl implements OrderService {
         log.info("远程请求：{}",url);
 
         // 2.给远程发送请求
+        Product product = restTemplate.getForObject(url,Product.class);
+
+        return product;
+    }
+
+    // 进阶2：负载均衡发送请求（手动声明的方式）
+    private Product getProductFromRemoteWithLoadBalance(Long productId){
+        // 1.获取到商品服务所在的机器IP+port
+        ServiceInstance choose = loadBalancerClient.choose("service-product");
+
+        // 远程URL  http://localhost:9001/product/12
+        String url = "http://" + choose.getHost() + ":" + choose.getPort() + "/product/" + productId;
+        log.info("远程请求：{}",url);
+
+        // 2.给远程发送请求
+        Product product = restTemplate.getForObject(url,Product.class);
+
+        return product;
+    }
+
+    // 进阶3：基于注解的负载均衡发送请求（注解的方式）学会这个即可，需要配置@LoadBalanced注解
+    private Product getProductFromRemoteWithLoadBalanceAnnotation(Long productId){
+
+        // 远程URL  http://localhost:9001/product/12
+        String url = "http://service-product/product/" + productId;  // service-product为要请求的微服务的名字
+
+        // 给远程发送请求,service-product会被动态替换
         Product product = restTemplate.getForObject(url,Product.class);
 
         return product;
