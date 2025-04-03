@@ -3,6 +3,7 @@ package com.star.controller;
 import com.star.product.bean.Product;
 import com.star.service.ProductService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,11 @@ public class ProductController {
 
     // 根据商品ID查询商品信息
     @GetMapping("/product/{id}")
-    public Product getProduct(@PathVariable("id") Long productId){
-        System.out.println("hello");
+    public Product getProduct(@PathVariable("id") Long productId,
+                              HttpServletRequest request){
+        // 获取请求中的token，这里是openfeign请求拦截器中配置的请求头token
+        String header = request.getHeader("X-Token");
+        System.out.println("hello ... token=" + header);
         return productService.getProductById(productId);
     }
 }
