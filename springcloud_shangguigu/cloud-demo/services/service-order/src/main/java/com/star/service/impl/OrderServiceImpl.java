@@ -1,6 +1,7 @@
 package com.star.service.impl;
 
 
+import com.star.feign.ProductFeignClient;
 import com.star.order.bean.Order;
 import com.star.product.bean.Product;
 import com.star.service.OrderService;
@@ -35,13 +36,17 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private LoadBalancerClient loadBalancerClient;  // 负载均衡
 
+    @Resource
+    private ProductFeignClient productFeignClient;  // 商品FeignClient
+
 
     @Override
     public Order createOrder(Long productId, Long userId) {
 
         // Product product = getProductFromRemote(productId);
         // Product product = getProductFromRemoteWithLoadBalance(productId);  // 负载均衡发送请求
-        Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);  // 基于注解的负载均衡
+        // Product product = getProductFromRemoteWithLoadBalanceAnnotation(productId);  // 基于注解的负载均衡
+        Product product = productFeignClient.getProductById(productId);  // 使用Feign完成远程调用
 
         Order order = new Order();
         order.setId(1L);
