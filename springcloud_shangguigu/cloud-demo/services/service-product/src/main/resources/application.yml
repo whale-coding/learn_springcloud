@@ -7,3 +7,6 @@ spring:
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848
+      config:
+        import-check:
+          enabled: false  # 禁用nacos配置中心导入检查，否则一旦因为配置中心依赖，必须导入nacos配置文件
