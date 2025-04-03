@@ -37,7 +37,7 @@ public class OrderConfig {
     /**
      * feign超时重试组件
      */
-    // @Bean
+    @Bean
     public Retryer retryer(){
         return new Retryer.Default();
     }

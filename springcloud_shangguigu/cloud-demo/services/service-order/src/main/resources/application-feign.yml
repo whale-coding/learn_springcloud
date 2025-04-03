@@ -11,6 +11,9 @@ spring:
             logger-level: full
             connect-timeout: 3000
             read-timeout: 5000
+#            request-interceptors:
+#              - com.star.interceptor.XTokenRequestInterceptor
+#            retryer: feign.retryer.Default
 feign:
   sentinel:
     enabled: true  # 开启服务熔断，feign远程调用失败之后会走兜底回调方法
