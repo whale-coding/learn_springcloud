@@ -1,5 +1,6 @@
 package com.star.feign;
 
+import com.star.feign.fallback.ProductFeignClientFallback;
 import com.star.product.bean.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @Author: 聂建强
  * @Description: 商品服务的OpenFeign客户端
  */
-
-@FeignClient(value = "service-product")  // 声明这是一个OpenFeign客户端,value指定要远程调用的微服务的名字
+// value指定远程调用的服务名，fallback指定调用失败之后的兜底回调
+@FeignClient(value = "service-product", fallback = ProductFeignClientFallback.class)  // 声明这是一个OpenFeign客户端,value指定要远程调用的微服务的名字
 public interface ProductFeignClient {
 
     // mvc注解的两套使用逻辑：
