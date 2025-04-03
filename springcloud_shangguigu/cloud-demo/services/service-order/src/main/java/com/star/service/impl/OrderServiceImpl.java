@@ -1,6 +1,7 @@
 package com.star.service.impl;
 
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.star.feign.ProductFeignClient;
 import com.star.order.bean.Order;
 import com.star.product.bean.Product;
@@ -40,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
     private ProductFeignClient productFeignClient;  // 商品FeignClient
 
 
+    @SentinelResource(value = "createOrder")  // 将该方法定义为sentinel中的资源，value属性指定资源的名称
     @Override
     public Order createOrder(Long productId, Long userId) {
 

@@ -10,3 +10,7 @@ spring:
       config:
         import-check:
           enabled: false  # 禁用nacos配置中心导入检查，否则一旦因为配置中心依赖，必须导入nacos配置文件
+    sentinel: # 配置sentinel
+      transport:
+        dashboard: localhost:9999  # 默认sentinel-dashboard的端口为8080,这里我是改的端口为9999
+      eager: true  # 提前加载，服务一启动，就连接到sentinel控制台

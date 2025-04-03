@@ -14,6 +14,14 @@ spring:
 #            request-interceptors:
 #              - com.star.interceptor.XTokenRequestInterceptor
 #            retryer: feign.retryer.Default
+
+    sentinel:  # 配置sentinel
+      transport:
+        dashboard: localhost:9999  # 默认sentinel-dashboard的端口为8080,这里我是改的端口为9999
+      eager: true  # 提前加载，服务一启动，就连接到sentinel控制台
+
+
+
 feign:
   sentinel:
     enabled: true  # 开启服务熔断，feign远程调用失败之后会走兜底回调方法
