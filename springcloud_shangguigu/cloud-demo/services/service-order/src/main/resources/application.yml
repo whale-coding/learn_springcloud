@@ -25,6 +25,10 @@ order:
   timeout: 60min
   auto-confirm: 14d
 
+# 日志记录，记录feign的调用日志
+logging:
+  level:
+    com.star.feign: debug
 
 ---
 spring:
