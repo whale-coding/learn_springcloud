@@ -1,6 +1,6 @@
 package com.star.controller;
 
-import com.star.bean.Product;
+import com.star.product.bean.Product;
 import com.star.service.ProductService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;

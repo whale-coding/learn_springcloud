@@ -1,6 +1,6 @@
 package com.star.controller;
 
-import com.star.bean.Order;
+import com.star.order.bean.Order;
 import com.star.service.OrderService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;

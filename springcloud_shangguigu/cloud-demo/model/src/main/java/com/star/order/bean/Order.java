@@ -1,5 +1,6 @@
-package com.star.bean;
+package com.star.order.bean;
 
+import com.star.product.bean.Product;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,5 +20,5 @@ public class Order {
     private Long userId;
     private String nickName;
     private String address;
-    private List<Objects> productList;  // 订单所包含的商品列表
+    private List<Product> productList;  // 订单所包含的商品列表
 }

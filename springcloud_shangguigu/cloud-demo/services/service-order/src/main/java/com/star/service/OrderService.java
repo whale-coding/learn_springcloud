@@ -1,6 +1,7 @@
 package com.star.service;
 
-import com.star.bean.Order;
+
+import com.star.order.bean.Order;
 
 /**
  * @Classname: OrderService
@@ -10,5 +11,5 @@ import com.star.bean.Order;
  */
 public interface OrderService {
 
-    Order createOrder(Long productId,Long userId);
+    Order createOrder(Long productId, Long userId);
 }

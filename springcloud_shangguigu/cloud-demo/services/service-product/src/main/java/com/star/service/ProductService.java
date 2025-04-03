@@ -1,6 +1,7 @@
 package com.star.service;
 
-import com.star.bean.Product;
+
+import com.star.product.bean.Product;
 
 /**
  * @Classname: ProductService
