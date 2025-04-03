@@ -3,7 +3,8 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: dev  # 激活的配置文件
+    include: feign  # 包括其他配置文件
   application:
     name: service-order  # 配置应用名，一般使用项目名,也是nacos中的服务名
   cloud:
