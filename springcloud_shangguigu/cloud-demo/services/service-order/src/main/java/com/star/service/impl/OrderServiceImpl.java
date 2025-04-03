@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
         order.setAddress("北京");
         // TODO: 远程查询商品列表
         order.setProductList(Arrays.asList(product));
-        
+
         /*
 
         try (Entry entry = SphU.entry("resourceName")){

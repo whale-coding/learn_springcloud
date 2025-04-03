@@ -19,6 +19,7 @@ spring:
       transport:
         dashboard: localhost:9999  # 默认sentinel-dashboard的端口为8080,这里我是改的端口为9999
       eager: true  # 提前加载，服务一启动，就连接到sentinel控制台
+      web-context-unify: false  # 不统一web的上下文（分割请求链路）
 
 
 

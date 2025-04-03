@@ -4,6 +4,7 @@ import com.star.order.bean.Order;
 import com.star.properties.OrderProperties;
 import com.star.service.OrderService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import javax.lang.model.type.ReferenceType;
  * @Author: 聂建强
  * @Description: 订单控制器
  */
+@Slf4j
 // @RefreshScope  // 激活配置属性的刷新功能，用于nacos做配置中心，自动刷新配置
 @RestController
 public class OrderController {
@@ -47,5 +49,26 @@ public class OrderController {
                              @RequestParam("productId") Long productId){
 
         return orderService.createOrder(productId,userId);
+    }
+
+    // 秒杀
+    @GetMapping("/seckill")
+    public Order seckill(@RequestParam("userId") Long userId,
+                             @RequestParam("productId") Long productId){
+        Order order = orderService.createOrder(productId,userId);
+        order.setId(Long.MAX_VALUE);
+
+        return order;
+    }
+
+    @GetMapping("/writeDb")
+    public String writeDb(){
+        return "writeDb success...";
+    }
+
+    @GetMapping("/readDb")
+    public String readDb(){
+        log.info("readDb...");
+        return "readDb success...";
     }
 }
