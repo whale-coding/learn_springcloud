@@ -17,4 +17,5 @@ public class OrderProperties {
     // 字段名需要与配置中的字段名保持一致
     String timeout;
     String autoConfirm;
+    String dbUrl;
 }

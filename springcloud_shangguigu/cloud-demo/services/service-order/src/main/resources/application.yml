@@ -2,17 +2,53 @@ server:
   port: 8000
 
 spring:
+  profiles:
+    active: dev
   application:
     name: service-order  # 配置应用名，一般使用项目名,也是nacos中的服务名
   cloud:
     nacos:
       server-addr: 127.0.0.1:8848  # nacos连接，配置后就会被nacos发现
-  config:
-    import: nacos:service-order.properties  # 导入nacos的配置，nacos作为配置中心，service-order.properties为Data ID
-
+      config:
+        import-check:
+          enabled: false
+        namespace: ${spring.profiles.active:public}  # 配置nacos的命名空间,默认为public
+#  config:
+#    import: nacos:service-order.properties  # 导入nacos的配置，nacos作为配置中心，service-order.properties为Data ID
+#    import:  # 导入多个配置，并且指定配置所在的组
+#      - nacos:common.properties?group=order
+#      - nacos:database.properties?group=order
 
 # 自定义的配置
 # 当nacos配置中心与application中的有相同的配置项时，nacos配置中心的生效，以nacos配置中心为准
 order:
   timeout: 60min
   auto-confirm: 14d
+
+
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+      - nacos:haha.properties?group=order
+    activate:
+      on-profile: test
+---
+spring:
+  config:
+    import:
+      - nacos:common.properties?group=order
+      - nacos:database.properties?group=order
+      - nacos:hehe.properties?group=order
+    activate:
+      on-profile: prod
