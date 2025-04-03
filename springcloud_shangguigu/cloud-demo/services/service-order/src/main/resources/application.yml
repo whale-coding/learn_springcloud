@@ -9,3 +9,10 @@ spring:
       server-addr: 127.0.0.1:8848  # nacos连接，配置后就会被nacos发现
   config:
     import: nacos:service-order.properties  # 导入nacos的配置，nacos作为配置中心，service-order.properties为Data ID
+
+
+# 自定义的配置
+# 当nacos配置中心与application中的有相同的配置项时，nacos配置中心的生效，以nacos配置中心为准
+order:
+  timeout: 60min
+  auto-confirm: 14d
