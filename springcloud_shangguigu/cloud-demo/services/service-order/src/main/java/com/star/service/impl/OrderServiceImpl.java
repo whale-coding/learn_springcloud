@@ -1,7 +1,10 @@
 package com.star.service.impl;
 
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.star.feign.ProductFeignClient;
 import com.star.order.bean.Order;
 import com.star.product.bean.Product;
@@ -40,8 +43,8 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private ProductFeignClient productFeignClient;  // 商品FeignClient
 
-
-    @SentinelResource(value = "createOrder")  // 将该方法定义为sentinel中的资源，value属性指定资源的名称
+    // value属性指定资源的名称,blockHandler指定异常处理兜底回调方法名
+    @SentinelResource(value = "createOrder", blockHandler ="createOrderFallback" )  // 将该方法定义为sentinel中的资源
     @Override
     public Order createOrder(Long productId, Long userId) {
 
@@ -59,6 +62,32 @@ public class OrderServiceImpl implements OrderService {
         order.setAddress("北京");
         // TODO: 远程查询商品列表
         order.setProductList(Arrays.asList(product));
+        
+        /*
+
+        try (Entry entry = SphU.entry("resourceName")){
+            // 被保护的业务逻辑
+           // do something here...
+        } catch (BlockException e) {
+            // 编码处理
+        }
+
+         */
+
+        return order;
+    }
+
+    /**
+     * blockHandler异常处理兜底回调方法,
+     * 要求方法参数、返回值与要兜底的@SentinelResource标注的方法名一致，以及可以加上BlockException e参数（这个是额外参数，允许添加）
+     */
+    public Order createOrderFallback(Long productId, Long userId, BlockException e){
+        Order order = new Order();
+        order.setId(0L);
+        order.setTotalAmount(new BigDecimal(0));
+        order.setUserId(userId);
+        order.setNickName("未知用户");
+        order.setAddress("异常信息：" + e.getClass());
 
         return order;
     }
