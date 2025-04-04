@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    gateway:
+      routes:  # 配置网关路由 List
+        - id: bing-route
+          uri: https://cn.bing.com
+          predicates: # 断言
+            - Path=/**
+          order: 100  # 虽然这个路由在前面，但是order比较大，因此并不会先执行
+        - id: order-route
+          uri: lb://service-order
+          predicates:  # 断言
+            - Path=/api/order/**
+          order: 1
+        - id: product-route
+          uri: lb://service-product
+          predicates: # 断言
+            - Path=/api/product/**
+          order: 2

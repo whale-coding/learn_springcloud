@@ -1,0 +1,11 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: gateway  # 配置应用名，一般使用项目名,也是nacos中的服务名
+  profiles:
+    include: route
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
