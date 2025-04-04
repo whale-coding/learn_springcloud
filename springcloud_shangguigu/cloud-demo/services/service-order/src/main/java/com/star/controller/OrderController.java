@@ -22,7 +22,7 @@ import javax.lang.model.type.ReferenceType;
  * @Author: 聂建强
  * @Description: 订单控制器
  */
-@RequestMapping("/api/order")
+// @RequestMapping("/api/order")
 @Slf4j
 // @RefreshScope  // 激活配置属性的刷新功能，用于nacos做配置中心，自动刷新配置
 @RestController

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @Author: 聂建强
  * @Description: 商品控制器
  */
-@RequestMapping("/api/product")
+// @RequestMapping("/api/product")
 @RestController
 public class ProductController {
 

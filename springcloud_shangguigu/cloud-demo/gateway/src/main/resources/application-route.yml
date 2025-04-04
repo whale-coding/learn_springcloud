@@ -12,8 +12,8 @@ spring:
               args:
                 param: q
                 regexp: haha
-#            - Vip=user,leifengyang  # 短写法
-            - name: Vip  # 长写法
+#            - Vip=user,leifengyang  # 短写法，自定义的断言
+            - name: Vip  # 长写法，自定义的断言
               args:
                 param: user
                 value: leifengyang
@@ -25,9 +25,16 @@ spring:
               args:
                 patterns: /api/order/**
                 matchTrailingSlash: true
+          filters:  # 过滤器配置
+            - RewritePath=/api/order/?(?<segment>.*), /$\{segment}  # 添加内置的”路径重写“过滤器
+            - OnceToken=X-Response-Token, jwt  # 自定义的过滤器工厂
           order: 1
         - id: product-route
           uri: lb://service-product
           predicates: # 断言的短写法
             - Path=/api/product/**
+          filters:
+            - RewritePath=/api/product/?(?<segment>.*), /$\{segment}  # 添加内置的”路径重写“过滤器
           order: 2
+      default-filters:  # 默认过滤器
+        - AddResponseHeader=X-Response-Abc, 123  # 使用内置的添加响应头过滤器
