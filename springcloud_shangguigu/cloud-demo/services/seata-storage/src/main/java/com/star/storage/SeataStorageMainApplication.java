@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableTransactionManagement  // 开启事务管理
 @MapperScan("com.star.storage.mapper")
 @EnableDiscoveryClient
 @SpringBootApplication
