@@ -4,16 +4,30 @@ spring:
       routes:  # 配置网关路由 List
         - id: bing-route
           uri: https://cn.bing.com
-          predicates: # 断言
-            - Path=/**
+          predicates:
+            - name: Path
+              args:
+                patterns: /search
+            - name: Query
+              args:
+                param: q
+                regexp: haha
+#            - Vip=user,leifengyang  # 短写法
+            - name: Vip  # 长写法
+              args:
+                param: user
+                value: leifengyang
           order: 100  # 虽然这个路由在前面，但是order比较大，因此并不会先执行
         - id: order-route
           uri: lb://service-order
-          predicates:  # 断言
-            - Path=/api/order/**
+          predicates:  # 断言的长写法
+            - name: Path
+              args:
+                patterns: /api/order/**
+                matchTrailingSlash: true
           order: 1
         - id: product-route
           uri: lb://service-product
-          predicates: # 断言
+          predicates: # 断言的短写法
             - Path=/api/product/**
           order: 2
